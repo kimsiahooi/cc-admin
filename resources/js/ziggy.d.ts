@@ -3,6 +3,7 @@ declare module 'ziggy-js' {
   interface RouteList {
     "home": [],
     "dashboard": [],
+    "orders.index": [],
     "profile.edit": [],
     "profile.update": [],
     "profile.destroy": [],
