@@ -7,11 +7,11 @@ import { usePage } from '@inertiajs/vue3';
 import { computed, watch } from 'vue';
 
 interface Props {
-    breadcrumbs?: BreadcrumbItemType[];
+  breadcrumbs?: BreadcrumbItemType[];
 }
 
 withDefaults(defineProps<Props>(), {
-    breadcrumbs: () => [],
+  breadcrumbs: () => [],
 });
 
 const page = usePage<SharedData>();
@@ -20,28 +20,28 @@ const { toast } = useToast();
 const flashMessage = computed(() => page.props.flash);
 
 watch(
-    flashMessage,
-    (newFlashMessage) => {
-        if (newFlashMessage.error) {
-            toast({
-                description: newFlashMessage.error,
-                variant: 'destructive',
-            });
-        }
+  flashMessage,
+  (newFlashMessage) => {
+    if (newFlashMessage.error) {
+      toast({
+        description: newFlashMessage.error,
+        variant: 'destructive',
+      });
+    }
 
-        if (newFlashMessage.success) {
-            toast({
-                description: newFlashMessage.success,
-            });
-        }
-    },
-    { deep: true, immediate: true },
+    if (newFlashMessage.success) {
+      toast({
+        description: newFlashMessage.success,
+      });
+    }
+  },
+  { deep: true, immediate: true },
 );
 </script>
 
 <template>
-    <AppLayout :breadcrumbs="breadcrumbs">
-        <slot />
-        <Toaster />
-    </AppLayout>
+  <AppLayout :breadcrumbs="breadcrumbs">
+    <slot />
+    <Toaster />
+  </AppLayout>
 </template>

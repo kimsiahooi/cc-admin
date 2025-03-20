@@ -1,0 +1,57 @@
+export interface Order {
+    readonly id?: number;
+    parent_id?: number | null;
+    number?: number | null;
+    order_key?: string | null;
+    created_via?: string | null;
+    version?: string | null;
+    status?: string | null;
+    currency?: string | null;
+    date_created?: Date | null;
+    date_created_gmt: Date | null;
+    date_modified?: Date | null;
+    date_modified_gmt?: Date | null;
+    discount_total?: string | null;
+    discount_tax?: string | null;
+    shipping_total?: string | null;
+    shipping_tax?: string | null;
+    total?: string | null;
+    total_tax?: string | null;
+    prices_include_tax?: boolean | null;
+    customer_id?: number | null;
+    customer_ip_address?: string | null;
+    customer_user_agent?: string | null;
+    customer_note?: string | null;
+    billing?: {
+        first_name?: string | null;
+        last_name?: string | null;
+        company?: string | null;
+        address_1?: string | null;
+        address_2?: string | null;
+        city?: string | null;
+        state?: string | null;
+        postcode?: string | null;
+        country?: string | null;
+        email?: string | null;
+        phone?: string | null;
+    } | null;
+    shipping?: {
+        first_name?: string | null;
+        last_name?: string | null;
+        company?: string | null;
+        address_1?: string | null;
+        address_2?: string | null;
+        city?: string | null;
+        state?: string | null;
+        postcode?: string | null;
+        country?: string | null;
+    } | null;
+    payment_method?: string | null;
+    payment_method_title?: string | null;
+    transaction_id?: string | null;
+    date_paid?: Date | null;
+    date_paid_gmt?: Date | null;
+    date_completed?: Date | null;
+    date_completed_gmt?: Date | null;
+    cart_hash?: string | null;
+}
