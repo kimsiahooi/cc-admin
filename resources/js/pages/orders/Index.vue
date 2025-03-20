@@ -154,7 +154,7 @@ const submit = () => {
               <TableCell class="text-center">{{ order.discount_total }}</TableCell>
               <TableCell class="text-center">{{ order.shipping_total }}</TableCell>
               <TableCell class="text-center">{{ order.total_tax }}</TableCell>
-              <TableCell class="text-center font-bold text-blue-500">{{ order.total }}</TableCell>
+              <TableCell class="text-center font-black">{{ order.total }}</TableCell>
               <TableCell class="text-center">{{ order.payment_method }}</TableCell>
               <TableCell class="text-center">{{ order.date_created && format(order.date_created, 'd MMM yyyy hh:mmaaa') }}</TableCell>
               <TableCell class="text-center">
