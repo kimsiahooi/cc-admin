@@ -25,7 +25,13 @@ class OrderController extends Controller
         }
 
         return inertia('orders/Index', [
-            'orders' => $response->json()
+            'orders' => $response->json(),
+            'filter_config' => [
+                'order_id' => $order_id,
+                'status' => $status,
+                'entries' => $entries,
+                'page' => $page,
+            ]
         ]);
     }
 }

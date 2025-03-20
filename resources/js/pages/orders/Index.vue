@@ -14,15 +14,21 @@ import { Head, router, useForm } from '@inertiajs/vue3';
 import { format } from 'date-fns';
 import { Eye } from 'lucide-vue-next';
 
-defineProps<{
+const { filter_config } = defineProps<{
   orders: Order[];
+  filter_config: {
+    order_id: string;
+    status: string;
+    entries: string;
+    page: string;
+  };
 }>();
 
 const searchForm = useForm({
-  entries: 10,
-  page: 1,
-  order_id: '',
-  status: 'any',
+  entries: +filter_config.entries,
+  page: +filter_config.page,
+  order_id: filter_config.order_id,
+  status: filter_config.status,
 });
 
 const breadcrumbs: BreadcrumbItem[] = [
