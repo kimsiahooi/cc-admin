@@ -28,6 +28,7 @@ export interface SharedData extends PageProps {
     success: string | null;
     error: string | null;
   };
+  domain_api_url: string;
 }
 
 export interface User {

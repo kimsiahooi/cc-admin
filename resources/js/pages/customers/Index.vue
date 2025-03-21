@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import ViewLink from '@/components/General/ViewLink.vue';
-import OrderLink from '@/components/Order/OrderLink.vue';
-import OrderStatus from '@/components/Order/OrderStatus.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -12,14 +9,13 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { useDateFormat } from '@/composables/useDateFormat';
 import AppLayout from '@/layouts/AppLayout.vue';
 import type { BreadcrumbItem } from '@/types';
-import type { Order } from '@/types/Order';
+import type { Customer } from '@/types/Customer';
 import { Head, router, useForm } from '@inertiajs/vue3';
 
 const { filter_config } = defineProps<{
-  orders?: Order[];
+  customers?: Customer[];
   filter_config: {
-    order_id: string;
-    status: string;
+    customer_id: string;
     entries: string;
     page: string;
   };
@@ -30,14 +26,13 @@ const dateFormat = useDateFormat();
 const searchForm = useForm({
   entries: +filter_config.entries,
   page: +filter_config.page,
-  order_id: filter_config.order_id,
-  status: filter_config.status,
+  customer_id: filter_config.customer_id,
 });
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
-    title: 'Orders',
-    href: route('orders.index'),
+    title: 'Customers',
+    href: route('customers.index'),
   },
 ];
 
@@ -70,11 +65,11 @@ const filter = () => {
 };
 
 const reset = () => {
-  router.visit(route('orders.index'));
+  router.visit(route('customers.index'));
 };
 
 const submit = () => {
-  searchForm.get(route('orders.index'), {
+  searchForm.get(route('customers.index'), {
     preserveState: true,
     preserveScroll: true,
   });
@@ -82,7 +77,7 @@ const submit = () => {
 </script>
 
 <template>
-  <Head title="Orders" />
+  <Head title="Customers" />
 
   <AppLayout :breadcrumbs="breadcrumbs">
     <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
@@ -90,34 +85,13 @@ const submit = () => {
         <Card>
           <form @submit.prevent="filter">
             <CardHeader>
-              <CardTitle>Orders</CardTitle>
+              <CardTitle>Customers</CardTitle>
             </CardHeader>
             <CardContent>
               <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 <div class="flex flex-col space-y-1.5">
-                  <Label for="search">Order ID</Label>
-                  <Input id="order_id" placeholder="Order ID" v-model="searchForm.order_id" :disabled="searchForm.processing" />
-                </div>
-                <div class="flex flex-col space-y-1.5">
-                  <Label for="status">Status</Label>
-                  <Select v-model="searchForm.status" :disabled="searchForm.processing">
-                    <SelectTrigger class="min-w-20">
-                      <SelectValue placeholder="Select Entries" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value="any">Any</SelectItem>
-                        <SelectItem value="pending">Pending</SelectItem>
-                        <SelectItem value="processing">Processing</SelectItem>
-                        <SelectItem value="on-hold">On Hold</SelectItem>
-                        <SelectItem value="completed">Completed</SelectItem>
-                        <SelectItem value="cancelled">Cancelled</SelectItem>
-                        <SelectItem value="refunded">Refunded</SelectItem>
-                        <SelectItem value="failed">Failed</SelectItem>
-                        <SelectItem value="trash">Trash</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
+                  <Label for="search">Customer ID</Label>
+                  <Input id="customer_id" placeholder="Customer ID" v-model="searchForm.customer_id" :disabled="searchForm.processing" />
                 </div>
               </div>
             </CardContent>
@@ -131,38 +105,33 @@ const submit = () => {
       <Separator class="my-2" />
       <div>
         <Table class="min-w-max">
-          <TableCaption>{{ orders?.length ? 'A list of your recent orders.' : 'No order found.' }}</TableCaption>
+          <TableCaption>{{ customers?.length ? 'A list of your recent customers.' : 'No customer found.' }}</TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead class="text-center">ID</TableHead>
-              <TableHead class="text-center">Status</TableHead>
-              <TableHead class="text-center">Discount</TableHead>
-              <TableHead class="text-center">Shipping</TableHead>
-              <TableHead class="text-center">Tax</TableHead>
-              <TableHead class="text-center">Total</TableHead>
-              <TableHead class="text-center">Payment Method</TableHead>
+              <TableHead class="text-center">Avatar</TableHead>
+              <TableHead class="text-center">Name</TableHead>
+              <TableHead class="text-center">Email</TableHead>
+              <TableHead class="text-center">Is Paying Customer</TableHead>
               <TableHead class="text-center">Date Created</TableHead>
               <TableHead class="text-center">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow v-for="order in orders" :key="order.id">
-              <TableCell class="text-center">{{ order.id }}</TableCell>
+            <TableRow v-for="customer in customers" :key="customer.id">
+              <TableCell class="text-center">{{ customer.id }}</TableCell>
               <TableCell class="text-center">
-                <OrderStatus :status="order.status" />
+                <img
+                  v-if="customer.avatar_url"
+                  :src="customer.avatar_url"
+                  :alt="customer.username || customer.id.toString()"
+                  class="inline-block size-8 rounded-full object-cover"
+                />
               </TableCell>
-              <TableCell class="text-center">{{ order.discount_total }}</TableCell>
-              <TableCell class="text-center">{{ order.shipping_total }}</TableCell>
-              <TableCell class="text-center">{{ order.total_tax }}</TableCell>
-              <TableCell class="text-center font-black">{{ order.total }}</TableCell>
-              <TableCell class="text-center">{{ order.payment_method }}</TableCell>
-              <TableCell class="text-center">{{ dateFormat(order.date_created) }}</TableCell>
-              <TableCell class="text-center">
-                <div class="space-x-3">
-                  <ViewLink :href="route('orders.show', order.id)" />
-                  <OrderLink :order-id="order.id" />
-                </div>
-              </TableCell>
+              <TableCell class="text-center">{{ customer.first_name }} {{ customer.last_name }}</TableCell>
+              <TableCell class="text-center">{{ customer.email }}</TableCell>
+              <TableCell class="text-center">{{ customer.is_paying_customer ? 'Yes' : 'No' }}</TableCell>
+              <TableCell class="text-center">{{ dateFormat(customer.date_created) }}</TableCell>
             </TableRow>
           </TableBody>
         </Table>

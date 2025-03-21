@@ -56,6 +56,7 @@ class HandleInertiaRequests extends Middleware
                 'success' => fn() => $request->session()->get('success'),
                 'error' => fn() => $request->session()->get('error'),
             ],
+            'domain_api_url' => env('VITE_WORDPRESS_DOMAIN_URL')
         ];
     }
 }
