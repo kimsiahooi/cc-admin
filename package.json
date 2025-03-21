@@ -2,14 +2,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "vite build",
+    "build": "bun run build:ssr",
     "build:ssr": "vite build && vite build --ssr",
     "dev": "vite",
     "format": "prettier --write resources/",
     "format:check": "prettier --check resources/",
     "lint": "eslint . --fix",
     "ziggy:generate": "concurrently \"php artisan ziggy:generate --types\"",
-    "start": "npm run build:ssr && concurrently \"php artisan inertia:start-ssr\"",
+    "start": "bun run build:ssr && concurrently \"php artisan inertia:start-ssr\"",
     "dump": "concurrently \"composer dump-autoload\""
   },
   "devDependencies": {
