@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { Badge } from '@/components/ui/badge';
+import ViewLink from '@/components/General/ViewLink.vue';
+import OrderLink from '@/components/Order/OrderLink.vue';
+import OrderStatus from '@/components/Order/OrderStatus.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -7,15 +9,14 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { useDateFormat } from '@/composables/useDateFormat';
 import AppLayout from '@/layouts/AppLayout.vue';
 import type { BreadcrumbItem } from '@/types';
 import type { Order } from '@/types/Order';
 import { Head, router, useForm } from '@inertiajs/vue3';
-import { format } from 'date-fns';
-import { Eye } from 'lucide-vue-next';
 
 const { filter_config } = defineProps<{
-  orders: Order[];
+  orders?: Order[];
   filter_config: {
     order_id: string;
     status: string;
@@ -23,6 +24,8 @@ const { filter_config } = defineProps<{
     page: string;
   };
 }>();
+
+const dateFormat = useDateFormat();
 
 const searchForm = useForm({
   entries: +filter_config.entries,
@@ -128,7 +131,7 @@ const submit = () => {
       <Separator class="my-2" />
       <div>
         <Table class="min-w-max">
-          <TableCaption>{{ orders.length ? 'A list of your recent orders.' : 'No order found.' }}</TableCaption>
+          <TableCaption>{{ orders?.length ? 'A list of your recent orders.' : 'No order found.' }}</TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead class="text-center">ID</TableHead>
@@ -145,26 +148,20 @@ const submit = () => {
           <TableBody>
             <TableRow v-for="order in orders" :key="order.id">
               <TableCell class="text-center">{{ order.id }}</TableCell>
-              <TableCell class="text-center capitalize">
-                <template v-if="order.status">
-                  <Badge
-                    v-if="order.status === 'failed' || order.status === 'cancelled' || order.status === 'trash' || order.status === 'refunded'"
-                    variant="destructive"
-                  >
-                    {{ order.status }}
-                  </Badge>
-                  <Badge v-else-if="order.status === 'completed'" class="text-success-foreground bg-success">{{ order.status }}</Badge>
-                  <Badge v-else>{{ order.status }}</Badge>
-                </template>
+              <TableCell class="text-center">
+                <OrderStatus :status="order.status" />
               </TableCell>
               <TableCell class="text-center">{{ order.discount_total }}</TableCell>
               <TableCell class="text-center">{{ order.shipping_total }}</TableCell>
               <TableCell class="text-center">{{ order.total_tax }}</TableCell>
               <TableCell class="text-center font-black">{{ order.total }}</TableCell>
               <TableCell class="text-center">{{ order.payment_method }}</TableCell>
-              <TableCell class="text-center">{{ order.date_created && format(order.date_created, 'ccc d MMM yyyy hh:mmaaa') }}</TableCell>
+              <TableCell class="text-center">{{ dateFormat(order.date_created) }}</TableCell>
               <TableCell class="text-center">
-                <Eye class="inline-block size-5 cursor-pointer" />
+                <div class="space-x-3">
+                  <ViewLink :href="route('orders.show', order.id)" />
+                  <OrderLink :order-id="order.id" />
+                </div>
               </TableCell>
             </TableRow>
           </TableBody>

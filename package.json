@@ -9,7 +9,7 @@
     "format:check": "prettier --check resources/",
     "lint": "eslint . --fix",
     "ziggy:generate": "concurrently \"php artisan ziggy:generate --types\"",
-    "start": "concurrently \"php artisan inertia:start-ssr\"",
+    "start": "npm run build:ssr && concurrently \"php artisan inertia:start-ssr\"",
     "dump": "concurrently \"composer dump-autoload\""
   },
   "devDependencies": {

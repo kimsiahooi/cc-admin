@@ -1,4 +1,6 @@
-interface LineItem {
+export type OrderStatus = 'pending' | 'processing' | 'on-hold' | 'completed' | 'cancelled' | 'refunded' | 'failed' | 'trash';
+
+export interface LineItem {
   readonly id: number;
   name?: string | null;
   product_id?: number | null;
@@ -18,6 +20,11 @@ interface LineItem {
     | null;
   sku?: string | null;
   price?: number | null;
+  image?: {
+    readonly id: number;
+    src?: string | null;
+  } | null;
+  parent_name?: string | null;
 }
 
 export interface Order {
@@ -27,7 +34,7 @@ export interface Order {
   order_key?: string | null;
   created_via?: string | null;
   version?: string | null;
-  status?: 'pending' | 'processing' | 'on-hold' | 'completed' | 'cancelled' | 'refunded' | 'failed' | 'trash';
+  status?: OrderStatus;
   currency?: string | null;
   date_created?: Date | null;
   date_created_gmt: Date | null;

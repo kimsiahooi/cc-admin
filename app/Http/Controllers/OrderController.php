@@ -13,6 +13,13 @@ class OrderController extends Controller
         $entries = $request->input('entries') ?? 10;
         $page = $request->input('page') ?? 1;
 
+        $filter_config = [
+            'order_id' => $order_id,
+            'status' => $status,
+            'entries' => $entries,
+            'page' => $page,
+        ];
+
         $response = fetchWithAuth()->get('/orders', [
             'include' => $order_id,
             'status' => $status,
@@ -21,17 +28,31 @@ class OrderController extends Controller
         ]);
 
         if ($response->failed()) {
-            return inertia('orders/Index')->with('flash.error', 'Error when fetching orders');
+            return inertia('orders/Index', [
+                'filter_config' => $filter_config
+            ])->with('flash.error', 'Error fetching orders');
         }
 
-        return inertia('orders/Index', [
-            'orders' => $response->json(),
-            'filter_config' => [
-                'order_id' => $order_id,
-                'status' => $status,
-                'entries' => $entries,
-                'page' => $page,
+        return inertia(
+            'orders/Index',
+            [
+                'orders' => $response->json(),
+                'filter_config' => $filter_config
             ]
+        );
+    }
+
+    public function show(int $id)
+    {
+        $response = fetchWithAuth()->get("/orders/$id");
+
+        if ($response->failed()) {
+
+            return inertia('orders/Show')->with('flash.error', "Error fetching order id $id");
+        }
+
+        return inertia('orders/Show', [
+            'order' => $response->json(),
         ]);
     }
 }
