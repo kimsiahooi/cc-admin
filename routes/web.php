@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -12,6 +13,13 @@ Route::middleware('auth')->group(function () {
     Route::get('dashboard', function () {
         return inertia('Dashboard');
     })->name('dashboard');
+
+    Route::prefix('customers')
+        ->name('customers.')
+        ->group(function () {
+            Route::get('', [CustomerController::class, 'index'])->name('index');
+            Route::get('/{id}', [CustomerController::class, 'show'])->name('show');
+        });
 
     Route::prefix('orders')
         ->name('orders.')

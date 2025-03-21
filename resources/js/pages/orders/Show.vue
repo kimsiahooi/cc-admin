@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import OrderLink from '@/components/Order/OrderLink.vue';
 import OrderStatus from '@/components/Order/OrderStatus.vue';
+import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -58,6 +59,12 @@ const breadcrumbs: BreadcrumbItem[] = [
               <div class="space-y-1">
                 <label>Date Modified:</label>
                 <p>{{ dateFormat(order.date_modified) || '-' }}</p>
+              </div>
+              <div v-if="order.coupon_lines?.length" class="space-y-1">
+                <label>Coupon(s):</label>
+                <div class="flex flex-wrap items-center gap-2">
+                  <Badge v-for="coupon in order.coupon_lines" :key="coupon.id">{{ coupon.code }}</Badge>
+                </div>
               </div>
               <div class="space-y-1">
                 <label>Discount:</label>

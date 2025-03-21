@@ -95,4 +95,15 @@ export interface Order {
         shipping_tax_total?: string | null;
       }[]
     | null;
+  coupon_lines?:
+    | {
+        readonly id: number;
+        code?: string | null;
+        discount?: string | null;
+        discount_tax?: string | null;
+        discount_type?: string | null;
+        nominal_amount?: number | null;
+        free_shipping?: boolean | null;
+      }[]
+    | null;
 }

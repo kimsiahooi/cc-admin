@@ -23,6 +23,13 @@ declare module 'ziggy-js' {
     "debugbar.queries.explain": [],
     "home": [],
     "dashboard": [],
+    "customers.index": [],
+    "customers.show": [
+        {
+            "name": "id",
+            "required": true
+        }
+    ],
     "orders.index": [],
     "orders.show": [
         {

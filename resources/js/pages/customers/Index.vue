@@ -136,7 +136,6 @@ const submit = () => {
             <TableRow>
               <TableHead class="text-center">ID</TableHead>
               <TableHead class="text-center">Status</TableHead>
-              <TableHead class="text-center">Coupon Used</TableHead>
               <TableHead class="text-center">Discount</TableHead>
               <TableHead class="text-center">Shipping</TableHead>
               <TableHead class="text-center">Tax</TableHead>
@@ -151,9 +150,6 @@ const submit = () => {
               <TableCell class="text-center">{{ order.id }}</TableCell>
               <TableCell class="text-center">
                 <OrderStatus :status="order.status" />
-              </TableCell>
-              <TableCell class="text-center">
-                {{ order.coupon_lines?.length ? 'Yes' : 'No' }}
               </TableCell>
               <TableCell class="text-center">{{ order.discount_total }}</TableCell>
               <TableCell class="text-center">{{ order.shipping_total }}</TableCell>
