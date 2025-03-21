@@ -1,3 +1,5 @@
+export type IsPayingCustomer = boolean | null;
+
 export interface Customer {
   readonly id: number;
   date_created?: Date | null;
@@ -33,6 +35,6 @@ export interface Customer {
     postcode?: string | null;
     country?: string | null;
   } | null;
-  is_paying_customer?: boolean | null;
+  is_paying_customer?: IsPayingCustomer;
   avatar_url?: string | null;
 }

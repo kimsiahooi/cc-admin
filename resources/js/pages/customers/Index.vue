@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import CustomerLink from '@/components/Customer/CustomerLink.vue';
+import PayingCustomerStatus from '@/components/Customer/PayingCustomerStatus.vue';
+import ViewLink from '@/components/General/ViewLink.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -16,6 +19,7 @@ const { filter_config } = defineProps<{
   customers?: Customer[];
   filter_config: {
     customer_id: string;
+    customer_email: string;
     entries: string;
     page: string;
   };
@@ -27,6 +31,7 @@ const searchForm = useForm({
   entries: +filter_config.entries,
   page: +filter_config.page,
   customer_id: filter_config.customer_id,
+  customer_email: filter_config.customer_email,
 });
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -93,6 +98,10 @@ const submit = () => {
                   <Label for="search">Customer ID</Label>
                   <Input id="customer_id" placeholder="Customer ID" v-model="searchForm.customer_id" :disabled="searchForm.processing" />
                 </div>
+                <div class="flex flex-col space-y-1.5">
+                  <Label for="search">Customer Email</Label>
+                  <Input id="customer_email" placeholder="Customer Email" v-model="searchForm.customer_email" :disabled="searchForm.processing" />
+                </div>
               </div>
             </CardContent>
             <CardFooter class="flex justify-end gap-2 px-6 pb-6">
@@ -130,8 +139,14 @@ const submit = () => {
               </TableCell>
               <TableCell class="text-center">{{ customer.first_name }} {{ customer.last_name }}</TableCell>
               <TableCell class="text-center">{{ customer.email }}</TableCell>
-              <TableCell class="text-center">{{ customer.is_paying_customer ? 'Yes' : 'No' }}</TableCell>
+              <TableCell class="text-center"><PayingCustomerStatus :-is-paying-customer="customer.is_paying_customer" /></TableCell>
               <TableCell class="text-center">{{ dateFormat(customer.date_created) }}</TableCell>
+              <TableCell class="text-center">
+                <div class="space-x-3">
+                  <ViewLink :href="route('customers.show', customer.id)" />
+                  <CustomerLink :customer-id="customer.id" />
+                </div>
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
