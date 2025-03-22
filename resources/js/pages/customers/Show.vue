@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CustomerLink from '@/components/Customer/CustomerLink.vue';
+import OrderDetailsLink from '@/components/Customer/OrderDetailsLink.vue';
 import PayingCustomerStatus from '@/components/Customer/PayingCustomerStatus.vue';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -35,7 +36,10 @@ const breadcrumbs: BreadcrumbItem[] = [
       <div v-if="customer" class="space-y-5">
         <Card>
           <CardHeader>
-            <CardTitle>Customer ID {{ customer.id }} <CustomerLink class="ml-2" :customer-id="customer.id" /></CardTitle>
+            <CardTitle class="space-x-2">
+              <span>Customer ID {{ customer.id }}</span> <OrderDetailsLink :href="route('orders.index', { customer_id: customer.id })" />
+              <CustomerLink class="ml-2" :customer-id="customer.id" />
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">

@@ -26,7 +26,8 @@ class CustomerController extends Controller
             'per_page' => $entries,
             'page' => $page,
             'orderby' => 'id',
-            'order' => 'desc'
+            'order' => 'desc',
+            'role' => 'all',
         ]);
 
         if ($response->failed()) {

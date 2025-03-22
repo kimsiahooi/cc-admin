@@ -9,7 +9,7 @@ import { useDateFormat } from '@/composables/useDateFormat';
 import AppLayout from '@/layouts/AppLayout.vue';
 import type { BreadcrumbItem } from '@/types';
 import type { Order } from '@/types/Order';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 
 const { order } = defineProps<{
   order?: Order;
@@ -37,7 +37,9 @@ const breadcrumbs: BreadcrumbItem[] = [
       <div v-if="order" class="space-y-5">
         <Card>
           <CardHeader>
-            <CardTitle>Order ID {{ order.id }} <OrderLink class="ml-2" :order-id="order.id" /></CardTitle>
+            <CardTitle class="space-x-2">
+              <span>Order ID {{ order.id }}</span> <OrderLink class="ml-2" :order-id="order.id" />
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -86,7 +88,11 @@ const breadcrumbs: BreadcrumbItem[] = [
               </div>
               <div class="space-y-1">
                 <label>Customer ID:</label>
-                <p>{{ order.customer_id && order.customer_id > 0 ? order.customer_id : '-' }}</p>
+                <div>
+                  <Link v-if="order.customer_id" :href="route('customers.show', order.customer_id)" class="underline">{{ order.customer_id }}</Link>
+                  <p v-else>-</p>
+                </div>
+                <!-- <p>{{ order.customer_id && order.customer_id > 0 ? order.customer_id : '-' }}</p> -->
               </div>
               <div class="space-y-1">
                 <label>Customer Note:</label>
