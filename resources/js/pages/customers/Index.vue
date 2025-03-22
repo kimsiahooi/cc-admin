@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CustomerLink from '@/components/Customer/CustomerLink.vue';
+import OrderDetailsLink from '@/components/Customer/OrderDetailsLink.vue';
 import PayingCustomerStatus from '@/components/Customer/PayingCustomerStatus.vue';
 import ViewLink from '@/components/General/ViewLink.vue';
 import { Button } from '@/components/ui/button';
@@ -144,6 +145,7 @@ const submit = () => {
               <TableCell class="text-center">
                 <div class="space-x-3">
                   <ViewLink :href="route('customers.show', customer.id)" />
+                  <OrderDetailsLink :href="route('orders.index', { customer_id: customer.id })" />
                   <CustomerLink :customer-id="customer.id" />
                 </div>
               </TableCell>

@@ -15,8 +15,9 @@ import type { BreadcrumbItem } from '@/types';
 import type { Order } from '@/types/Order';
 import { Head, router, useForm } from '@inertiajs/vue3';
 
-const { filter_config } = defineProps<{
+const { customer_id, filter_config } = defineProps<{
   orders?: Order[];
+  customer_id?: string;
   filter_config: {
     order_id: string;
     status: string;
@@ -31,6 +32,7 @@ const searchForm = useForm({
   entries: +filter_config.entries,
   page: +filter_config.page,
   order_id: filter_config.order_id,
+  customer_id: customer_id,
   status: filter_config.status,
 });
 
@@ -97,6 +99,10 @@ const submit = () => {
                 <div class="flex flex-col space-y-1.5">
                   <Label for="search">Order ID</Label>
                   <Input id="order_id" placeholder="Order ID" v-model="searchForm.order_id" :disabled="searchForm.processing" />
+                </div>
+                <div class="flex flex-col space-y-1.5">
+                  <Label for="search">Customer ID</Label>
+                  <Input id="customer_id" placeholder="Customer ID" v-model="searchForm.customer_id" :disabled="searchForm.processing" />
                 </div>
                 <div class="flex flex-col space-y-1.5">
                   <Label for="status">Status</Label>
