@@ -30,6 +30,13 @@ declare module 'ziggy-js' {
             "required": true
         }
     ],
+    "products.index": [],
+    "products.show": [
+        {
+            "name": "id",
+            "required": true
+        }
+    ],
     "orders.index": [],
     "orders.show": [
         {

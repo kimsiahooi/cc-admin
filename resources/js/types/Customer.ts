@@ -2,14 +2,14 @@ export type IsPayingCustomer = boolean | null;
 
 export interface Customer {
   readonly id: number;
-  date_created?: Date | null;
-  date_created_gmt?: Date | null;
-  date_modified?: Date | null;
-  date_modified_gmt?: Date | null;
+  readonly date_created?: Date | null;
+  readonly date_created_gmt?: Date | null;
+  readonly date_modified?: Date | null;
+  readonly date_modified_gmt?: Date | null;
   email?: string | null;
   first_name?: string | null;
   last_name?: string | null;
-  role?: string | null;
+  readonly role?: string | null;
   username?: string | null;
   billing?: {
     first_name?: string | null;
@@ -35,6 +35,11 @@ export interface Customer {
     postcode?: string | null;
     country?: string | null;
   } | null;
-  is_paying_customer?: IsPayingCustomer;
-  avatar_url?: string | null;
+  readonly is_paying_customer?: IsPayingCustomer;
+  readonly avatar_url?: string | null;
+  meta_data?: {
+    readonly id?: number | null;
+    key?: string | null;
+    value?: string | null;
+  };
 }

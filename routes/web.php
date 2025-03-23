@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -19,6 +20,13 @@ Route::middleware('auth')->group(function () {
         ->group(function () {
             Route::get('', [CustomerController::class, 'index'])->name('index');
             Route::get('/{id}', [CustomerController::class, 'show'])->name('show');
+        });
+
+    Route::prefix('products')
+        ->name('products.')
+        ->group(function () {
+            Route::get('', [ProductController::class, 'index'])->name('index');
+            Route::get('/{id}', [ProductController::class, 'show'])->name('show');
         });
 
     Route::prefix('orders')

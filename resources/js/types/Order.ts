@@ -1,25 +1,187 @@
 export type OrderStatus = 'pending' | 'processing' | 'on-hold' | 'completed' | 'cancelled' | 'refunded' | 'failed' | 'trash';
+export type Currency =
+  | 'AED'
+  | 'AFN'
+  | 'ALL'
+  | 'AMD'
+  | 'ANG'
+  | 'AOA'
+  | 'ARS'
+  | 'AUD'
+  | 'AWG'
+  | 'AZN'
+  | 'BAM'
+  | 'BBD'
+  | 'BDT'
+  | 'BGN'
+  | 'BHD'
+  | 'BIF'
+  | 'BMD'
+  | 'BND'
+  | 'BOB'
+  | 'BRL'
+  | 'BSD'
+  | 'BTC'
+  | 'BTN'
+  | 'BWP'
+  | 'BYR'
+  | 'BZD'
+  | 'CAD'
+  | 'CDF'
+  | 'CHF'
+  | 'CLP'
+  | 'CNY'
+  | 'COP'
+  | 'CRC'
+  | 'CUC'
+  | 'CUP'
+  | 'CVE'
+  | 'CZK'
+  | 'DJF'
+  | 'DKK'
+  | 'DOP'
+  | 'DZD'
+  | 'EGP'
+  | 'ERN'
+  | 'ETB'
+  | 'EUR'
+  | 'FJD'
+  | 'FKP'
+  | 'GBP'
+  | 'GEL'
+  | 'GGP'
+  | 'GHS'
+  | 'GIP'
+  | 'GMD'
+  | 'GNF'
+  | 'GTQ'
+  | 'GYD'
+  | 'HKD'
+  | 'HNL'
+  | 'HRK'
+  | 'HTG'
+  | 'HUF'
+  | 'IDR'
+  | 'ILS'
+  | 'IMP'
+  | 'INR'
+  | 'IQD'
+  | 'IRR'
+  | 'IRT'
+  | 'ISK'
+  | 'JEP'
+  | 'JMD'
+  | 'JOD'
+  | 'JPY'
+  | 'KES'
+  | 'KGS'
+  | 'KHR'
+  | 'KMF'
+  | 'KPW'
+  | 'KRW'
+  | 'KWD'
+  | 'KYD'
+  | 'KZT'
+  | 'LAK'
+  | 'LBP'
+  | 'LKR'
+  | 'LRD'
+  | 'LSL'
+  | 'LYD'
+  | 'MAD'
+  | 'MDL'
+  | 'MGA'
+  | 'MKD'
+  | 'MMK'
+  | 'MNT'
+  | 'MOP'
+  | 'MRO'
+  | 'MUR'
+  | 'MVR'
+  | 'MWK'
+  | 'MXN'
+  | 'MYR'
+  | 'MZN'
+  | 'NAD'
+  | 'NGN'
+  | 'NIO'
+  | 'NOK'
+  | 'NPR'
+  | 'NZD'
+  | 'OMR'
+  | 'PAB'
+  | 'PEN'
+  | 'PGK'
+  | 'PHP'
+  | 'PKR'
+  | 'PLN'
+  | 'PRB'
+  | 'PYG'
+  | 'QAR'
+  | 'RON'
+  | 'RSD'
+  | 'RUB'
+  | 'RWF'
+  | 'SAR'
+  | 'SBD'
+  | 'SCR'
+  | 'SDG'
+  | 'SEK'
+  | 'SGD'
+  | 'SHP'
+  | 'SLL'
+  | 'SOS'
+  | 'SRD'
+  | 'SSP'
+  | 'STD'
+  | 'SYP'
+  | 'SZL'
+  | 'THB'
+  | 'TJS'
+  | 'TMT'
+  | 'TND'
+  | 'TOP'
+  | 'TRY'
+  | 'TTD'
+  | 'TWD'
+  | 'TZS'
+  | 'UAH'
+  | 'UGX'
+  | 'USD'
+  | 'UYU'
+  | 'UZS'
+  | 'VEF'
+  | 'VND'
+  | 'VUV'
+  | 'WST'
+  | 'XAF'
+  | 'XCD'
+  | 'XOF'
+  | 'XPF'
+  | 'YER'
+  | 'ZAR'
+  | 'ZMW';
 
 export interface LineItem {
-  readonly id: number;
+  readonly id?: number;
   name?: string | null;
   product_id?: number | null;
   variation_id?: number | null;
   quantity?: number | null;
   tax_class?: string | null;
   subtotal?: string | null;
-  subtotal_tax?: string | null;
+  readonly subtotal_tax?: string | null;
   total?: string | null;
-  total_tax?: string | null;
-  tax?:
+  readonly total_tax?: string | null;
+  readonly taxes?:
     | {
         readonly id: number;
         total?: string | null;
         subtotal?: string | null;
       }[]
     | null;
-  sku?: string | null;
-  price?: number | null;
+  readonly sku?: string | null;
+  readonly price?: number | null;
   image?: {
     readonly id: number;
     src?: string | null;
@@ -30,26 +192,27 @@ export interface LineItem {
 export interface Order {
   readonly id: number;
   parent_id?: number | null;
-  number?: number | null;
-  order_key?: string | null;
-  created_via?: string | null;
-  version?: string | null;
+  readonly number?: number | null;
+  readonly order_key?: string | null;
+  readonly created_via?: string | null;
+  readonly version?: string | null;
   status?: OrderStatus;
-  currency?: string | null;
-  date_created?: Date | null;
-  date_created_gmt: Date | null;
-  date_modified?: Date | null;
-  date_modified_gmt?: Date | null;
-  discount_total?: string | null;
-  discount_tax?: string | null;
-  shipping_total?: string | null;
-  shipping_tax?: string | null;
-  total?: string | null;
-  total_tax?: string | null;
-  prices_include_tax?: boolean | null;
+  currency?: Currency;
+  readonly date_created?: Date | null;
+  readonly date_created_gmt: Date | null;
+  readonly date_modified?: Date | null;
+  readonly date_modified_gmt?: Date | null;
+  readonly discount_total?: string | null;
+  readonly discount_tax?: string | null;
+  readonly shipping_total?: string | null;
+  readonly shipping_tax?: string | null;
+  readonly cart_tax?: string | null;
+  readonly total?: string | null;
+  readonly total_tax?: string | null;
+  readonly prices_include_tax?: boolean | null;
   customer_id?: number | null;
-  customer_ip_address?: string | null;
-  customer_user_agent?: string | null;
+  readonly customer_ip_address?: string | null;
+  readonly customer_user_agent?: string | null;
   customer_note?: string | null;
   billing?: {
     first_name?: string | null;
@@ -78,15 +241,22 @@ export interface Order {
   payment_method?: string | null;
   payment_method_title?: string | null;
   transaction_id?: string | null;
-  date_paid?: Date | null;
-  date_paid_gmt?: Date | null;
-  date_completed?: Date | null;
-  date_completed_gmt?: Date | null;
-  cart_hash?: string | null;
+  readonly date_paid?: Date | null;
+  readonly date_paid_gmt?: Date | null;
+  readonly date_completed?: Date | null;
+  readonly date_completed_gmt?: Date | null;
+  readonly cart_hash?: string | null;
+  meta_data?:
+    | {
+        readonly id?: number | null;
+        key?: string | null;
+        value?: string | null;
+      }[]
+    | null;
   line_items?: LineItem[] | null;
   tax_lines?:
     | {
-        readonly id: number;
+        readonly id?: number;
         rate_code?: string | null;
         rate_id?: number | null;
         label?: string | null;
@@ -97,7 +267,7 @@ export interface Order {
     | null;
   coupon_lines?:
     | {
-        readonly id: number;
+        readonly id?: number;
         code?: string | null;
         discount?: string | null;
         discount_tax?: string | null;
