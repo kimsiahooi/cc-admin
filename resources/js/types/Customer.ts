@@ -6,7 +6,7 @@ export interface Customer {
   readonly date_created_gmt?: Date | null;
   readonly date_modified?: Date | null;
   readonly date_modified_gmt?: Date | null;
-  email?: string | null;
+  readonly email?: string | null;
   first_name?: string | null;
   last_name?: string | null;
   readonly role?: string | null;
@@ -37,9 +37,11 @@ export interface Customer {
   } | null;
   readonly is_paying_customer?: IsPayingCustomer;
   readonly avatar_url?: string | null;
-  meta_data?: {
-    readonly id?: number | null;
-    key?: string | null;
-    value?: string | null;
-  };
+  meta_data?:
+    | {
+        readonly id?: number | null;
+        key?: string | null;
+        value?: string | null;
+      }[]
+    | null;
 }
