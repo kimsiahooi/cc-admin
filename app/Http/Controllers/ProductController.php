@@ -8,6 +8,7 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
+
         $product_id = $request->input('product_id') ?? null;
         $status = $request->input('status') ?? 'any';
         $type = $request->input('type') ?? null;
@@ -32,7 +33,6 @@ class ProductController extends Controller
             'on_sale' => $on_sale ?? '',
             'min_price' => $min_price ?? '',
             'max_price' => $max_price ?? '',
-            'stock_status' => $stock_status ?? '',
             'entries' => $entries,
             'page' => $page,
             'orderby' => $orderby,
@@ -49,7 +49,7 @@ class ProductController extends Controller
             'min_price' => $min_price,
             'max_price' => $max_price,
             'stock_status' => $stock_status,
-            'entries' => $entries,
+            'per_page' => $entries,
             'page' => $page,
             'orderby' => $orderby,
         ]);

@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import CustomerLink from '@/components/Customer/CustomerLink.vue';
-import OrderDetailsLink from '@/components/Customer/OrderDetailsLink.vue';
-import PayingCustomerStatus from '@/components/Customer/PayingCustomerStatus.vue';
-import ViewLink from '@/components/General/ViewLink.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -25,7 +21,7 @@ const { filter_config } = defineProps<{
     sku: string;
     featured: '' | '0' | '1';
     category: string;
-    on_sale: '' | boolean;
+    on_sale: '' | '0' | '1';
     min_price: string;
     max_price: string;
     stock_status: ProductStockStatus;
@@ -128,7 +124,7 @@ const submit = () => {
                         <SelectItem value="any">Any</SelectItem>
                         <SelectItem value="draft">Draft</SelectItem>
                         <SelectItem value="pending">Pending</SelectItem>
-                        <SelectItem value="private">private</SelectItem>
+                        <SelectItem value="private">Private</SelectItem>
                         <SelectItem value="publish">Publish</SelectItem>
                       </SelectGroup>
                     </SelectContent>
@@ -172,6 +168,64 @@ const submit = () => {
                   <Label for="search">Category ID</Label>
                   <Input placeholder="Category ID" v-model="searchForm.category" :disabled="searchForm.processing" />
                 </div>
+                <div class="flex flex-col space-y-1.5">
+                  <Label for="search">On Sale</Label>
+                  <Select v-model="searchForm.on_sale" :disabled="searchForm.processing">
+                    <SelectTrigger class="min-w-20">
+                      <SelectValue placeholder="Select On Sale" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="1">Yes</SelectItem>
+                        <SelectItem value="0">No</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div class="flex flex-col space-y-1.5">
+                  <Label for="search">Min. Price</Label>
+                  <Input placeholder="Min. Price" v-model="searchForm.min_price" :disabled="searchForm.processing" />
+                </div>
+                <div class="flex flex-col space-y-1.5">
+                  <Label for="search">Max. Price</Label>
+                  <Input placeholder="Max. Price" v-model="searchForm.max_price" :disabled="searchForm.processing" />
+                </div>
+                <div class="flex flex-col space-y-1.5">
+                  <Label for="search">Stock Status</Label>
+                  <Select v-model="searchForm.stock_status" :disabled="searchForm.processing">
+                    <SelectTrigger class="min-w-20">
+                      <SelectValue placeholder="Select Stock Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="instock">In Stock</SelectItem>
+                        <SelectItem value="outofstock">Out of Stock</SelectItem>
+                        <SelectItem value="onbackorder">On Back Order</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div class="flex flex-col space-y-1.5">
+                  <Label for="search">Order By:</Label>
+                  <Select v-model="searchForm.orderby" :disabled="searchForm.processing">
+                    <SelectTrigger class="min-w-20">
+                      <SelectValue placeholder="Select Order By" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="date">Date</SelectItem>
+                        <SelectItem value="modified">Modified</SelectItem>
+                        <SelectItem value="id">ID</SelectItem>
+                        <SelectItem value="title">Title</SelectItem>
+                        <SelectItem value="slug">Slug</SelectItem>
+                        <SelectItem value="price">Price</SelectItem>
+                        <SelectItem value="popularity">Popularity</SelectItem>
+                        <SelectItem value="rating">Rating</SelectItem>
+                        <SelectItem value="menu_order">Menu Order</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </CardContent>
             <CardFooter class="flex justify-end gap-2 px-6 pb-6">
@@ -184,40 +238,39 @@ const submit = () => {
       <Separator class="my-2" />
       <div>
         <Table class="min-w-max">
-          <TableCaption>{{ customers?.length ? 'A list of your recent customers.' : 'No customer found.' }}</TableCaption>
+          <TableCaption>{{ products?.length ? 'A list of your recent products.' : 'No product found.' }}</TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead class="text-center">ID</TableHead>
-              <TableHead class="text-center">Avatar</TableHead>
+              <TableHead class="text-center">Image</TableHead>
               <TableHead class="text-center">Name</TableHead>
-              <TableHead class="text-center">Email</TableHead>
-              <TableHead class="text-center">Is Paying Customer</TableHead>
+              <TableHead class="text-center">Type</TableHead>
+              <TableHead class="text-center">Status</TableHead>
+              <TableHead class="text-center">Price</TableHead>
+              <TableHead class="text-center">On Sale</TableHead>
+              <TableHead class="text-center">Stock Status</TableHead>
               <TableHead class="text-center">Date Created</TableHead>
               <TableHead class="text-center">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow v-for="customer in customers" :key="customer.id">
-              <TableCell class="text-center">{{ customer.id }}</TableCell>
+            <TableRow v-for="product in products" :key="product.id">
+              <TableCell class="text-center">{{ product.id }}</TableCell>
               <TableCell class="text-center">
                 <img
-                  v-if="customer.avatar_url"
-                  :src="customer.avatar_url"
-                  :alt="customer.username || customer.id.toString()"
-                  class="inline-block size-8 rounded-full object-cover"
+                  v-if="product.images?.length && product.images[0].src"
+                  :src="product.images[0].src"
+                  :alt="product.name || product.id.toString()"
+                  class="inline-block size-8 object-cover"
                 />
               </TableCell>
-              <TableCell class="text-center">{{ customer.first_name }} {{ customer.last_name }}</TableCell>
-              <TableCell class="text-center">{{ customer.email }}</TableCell>
-              <TableCell class="text-center"><PayingCustomerStatus :-is-paying-customer="customer.is_paying_customer" /></TableCell>
-              <TableCell class="text-center">{{ dateFormat(customer.date_created) }}</TableCell>
-              <TableCell class="text-center">
-                <div class="space-x-3">
-                  <ViewLink :href="route('customers.show', customer.id)" />
-                  <OrderDetailsLink :href="route('orders.index', { customer_id: customer.id })" />
-                  <CustomerLink :customer-id="customer.id" />
-                </div>
-              </TableCell>
+              <TableCell class="text-center">{{ product.name }}</TableCell>
+              <TableCell class="text-center">{{ product.type }}</TableCell>
+              <TableCell class="text-center">{{ product.status }}</TableCell>
+              <TableCell class="text-center">{{ product.price }}</TableCell>
+              <TableCell class="text-center">{{ product.on_sale ? 'Yes' : 'No' }}</TableCell>
+              <TableCell class="text-center">{{ product.stock_status }}</TableCell>
+              <TableCell class="text-center">{{ dateFormat(product.date_created) }}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
