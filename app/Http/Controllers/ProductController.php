@@ -65,4 +65,18 @@ class ProductController extends Controller
             'filter_config' => $filter_config
         ]);
     }
+
+    public function show(int $id)
+    {
+        $response = fetchWithAuth()->get("/products/$id");
+
+        if ($response->failed()) {
+
+            return inertia('products/Show')->with('flash.error', "Error fetching product id $id");
+        }
+
+        return inertia('products/Show', [
+            'product' => $response->json(),
+        ]);
+    }
 }
