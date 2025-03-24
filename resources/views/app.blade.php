@@ -40,7 +40,7 @@
         @vite(['resources/js/app.ts'])
         @inertiaHead
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased max-w-full overflow-hidden">
         @inertia
     </body>
 </html>
