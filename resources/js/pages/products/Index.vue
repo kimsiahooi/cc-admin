@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ViewLink from '@/components/General/ViewLink.vue';
+import ProductLink from '@/components/Product/ProductLink.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -265,12 +267,30 @@ const submit = () => {
                 />
               </TableCell>
               <TableCell class="text-center">{{ product.name }}</TableCell>
-              <TableCell class="text-center">{{ product.type }}</TableCell>
-              <TableCell class="text-center">{{ product.status }}</TableCell>
+              <TableCell class="text-center">
+                <span class="capitalize">{{ product.type }}</span>
+              </TableCell>
+              <TableCell class="text-center">
+                <span class="capitalize">{{ product.status }}</span>
+              </TableCell>
               <TableCell class="text-center">{{ product.price }}</TableCell>
               <TableCell class="text-center">{{ product.on_sale ? 'Yes' : 'No' }}</TableCell>
-              <TableCell class="text-center">{{ product.stock_status }}</TableCell>
+              <TableCell class="text-center">{{
+                product.stock_status === 'instock'
+                  ? 'In Stock'
+                  : product.stock_status === 'outofstock'
+                    ? 'Out of Stock'
+                    : product.stock_status === 'onbackorder'
+                      ? 'On Back Order'
+                      : product.stock_status
+              }}</TableCell>
               <TableCell class="text-center">{{ dateFormat(product.date_created) }}</TableCell>
+              <TableCell class="text-center">
+                <div class="space-x-3">
+                  <ViewLink :href="route('products.show', product.id)" />
+                  <ProductLink :product-id="product.id" />
+                </div>
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
