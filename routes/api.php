@@ -10,10 +10,10 @@ Route::get('order-notifications', function (Request $request) {
     ]);
 
     if ($response->failed()) {
-        return [
+        return response([
             'success' => false,
             'message' => 'Error fetching orders'
-        ];
+        ], 400);
     }
 
     $orders = $response->json();
