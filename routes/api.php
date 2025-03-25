@@ -19,7 +19,8 @@ Route::get('order-notifications', function (Request $request) {
 
     return collect($orders)->map(fn($order) => [
         'id' => $order['id'] ?? null,
+        'date_created' => $order['date_created'] ?? null,
         'billing' => $order['billing'] ?? null,
-        'line_items' => $order['line_items'] ?? null
+        'line_items' => $order['line_items'] ?? null,
     ]);
 });
