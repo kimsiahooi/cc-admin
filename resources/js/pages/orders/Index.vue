@@ -15,10 +15,11 @@ import type { BreadcrumbItem } from '@/types';
 import type { Order } from '@/types/Order';
 import { Head, router, useForm } from '@inertiajs/vue3';
 
-const { customer_id, filter_config } = defineProps<{
+const { filter_config } = defineProps<{
   orders?: Order[];
-  customer_id?: string;
   filter_config: {
+    customer_id?: string;
+    product_id?: string;
     order_id: string;
     status: string;
     entries: string;
@@ -32,7 +33,8 @@ const searchForm = useForm({
   entries: +filter_config.entries,
   page: +filter_config.page,
   order_id: filter_config.order_id,
-  customer_id: customer_id,
+  customer_id: filter_config.customer_id,
+  product_id: filter_config.product_id,
   status: filter_config.status,
 });
 
@@ -98,11 +100,15 @@ const submit = () => {
               <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 <div class="flex flex-col space-y-1.5">
                   <Label for="search">Order ID</Label>
-                  <Input id="order_id" placeholder="Order ID" v-model="searchForm.order_id" :disabled="searchForm.processing" />
+                  <Input placeholder="Enter Order ID" v-model="searchForm.order_id" :disabled="searchForm.processing" />
                 </div>
                 <div class="flex flex-col space-y-1.5">
                   <Label for="search">Customer ID</Label>
-                  <Input id="customer_id" placeholder="Customer ID" v-model="searchForm.customer_id" :disabled="searchForm.processing" />
+                  <Input placeholder="Enter Customer ID" v-model="searchForm.customer_id" :disabled="searchForm.processing" />
+                </div>
+                <div class="flex flex-col space-y-1.5">
+                  <Label for="search">Product ID</Label>
+                  <Input placeholder="Enter Product ID" v-model="searchForm.product_id" :disabled="searchForm.processing" />
                 </div>
                 <div class="flex flex-col space-y-1.5">
                   <Label for="status">Status</Label>

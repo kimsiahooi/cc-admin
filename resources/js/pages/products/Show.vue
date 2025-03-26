@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import OrderDetailsLink from '@/components/Customer/OrderDetailsLink.vue';
 import ProductLink from '@/components/Product/ProductLink.vue';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -35,7 +36,8 @@ const breadcrumbs: BreadcrumbItem[] = [
         <Card>
           <CardHeader>
             <CardTitle class="space-x-2">
-              <span>Product ID {{ product.id }}</span> <ProductLink :product-id="product.id" />
+              <span>Product ID {{ product.id }}</span> <OrderDetailsLink :href="route('orders.index', { product_id: product.id })" />
+              <ProductLink :product-id="product.id" />
             </CardTitle>
           </CardHeader>
           <CardContent>
