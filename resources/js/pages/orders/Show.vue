@@ -137,7 +137,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                       <img
                         v-if="product.image?.src"
                         :src="product.image.src"
-                        :alt="product.name || product.id.toString()"
+                        :alt="product.name || product.id?.toString()"
                         class="inline-block size-8 object-cover"
                       />
                       <span>{{ product.name }}</span>

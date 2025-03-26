@@ -5,13 +5,15 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useDateFormat } from '@/composables/useDateFormat';
 import AppLayout from '@/layouts/AppLayout.vue';
-import type { BreadcrumbItem } from '@/types';
+import type { BreadcrumbItem, SharedData } from '@/types';
 import type { Product } from '@/types/Product';
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 
 const { product } = defineProps<{
   product?: Product;
 }>();
+
+const page = usePage<SharedData>();
 
 const dateFormat = useDateFormat();
 
@@ -48,7 +50,12 @@ const breadcrumbs: BreadcrumbItem[] = [
               </div>
               <div class="space-y-1">
                 <label>Slug:</label>
-                <p>{{ product.slug || '-' }}</p>
+                <div>
+                  <a v-if="product.slug" :href="`${page.props.domain_api_url}/product/${product.slug}`" target="_blank" class="underline">
+                    {{ product.slug }}
+                  </a>
+                  <p v-else>-</p>
+                </div>
               </div>
               <div class="space-y-1">
                 <label>Date Created:</label>
@@ -72,7 +79,7 @@ const breadcrumbs: BreadcrumbItem[] = [
               </div>
               <div class="space-y-1">
                 <label>Sku:</label>
-                <p>{{ product.sku || '-' }}</p>
+                <p>{{ product.sku }}</p>
               </div>
               <div class="space-y-1">
                 <label>Price:</label>
