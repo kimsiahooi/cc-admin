@@ -51,9 +51,10 @@ const breadcrumbs: BreadcrumbItem[] = [
               <div class="space-y-1">
                 <label>Slug:</label>
                 <div>
-                  <a v-if="product.slug" :href="`${page.props.domain_api_url}/product/${product.slug}`" target="_blank" class="underline">
+                  <a v-if="product.permalink" :href="product.permalink" target="_blank" class="underline">
                     {{ product.slug }}
                   </a>
+                  <p v-else-if="product.slug">{{ product.slug }}</p>
                   <p v-else>-</p>
                 </div>
               </div>
