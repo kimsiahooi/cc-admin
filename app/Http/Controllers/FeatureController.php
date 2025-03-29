@@ -18,7 +18,7 @@ class FeatureController extends Controller
     public function update(Feature $feature, Request $request)
     {
         $validatedData = $request->validate([
-            'total' => 'required|integer|min:1|max:100',
+            'total' => 'required|integer|min:10|max:100',
             'loop_time' => 'required|integer|min:1000',
             'real_data' => 'required|boolean',
             'is_active' => 'required|boolean',
