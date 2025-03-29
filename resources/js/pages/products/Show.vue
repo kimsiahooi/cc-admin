@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import OrderDetailsLink from '@/components/Customer/OrderDetailsLink.vue';
 import ProductLink from '@/components/Product/ProductLink.vue';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -35,7 +36,8 @@ const breadcrumbs: BreadcrumbItem[] = [
         <Card>
           <CardHeader>
             <CardTitle class="space-x-2">
-              <span>Product ID {{ product.id }}</span> <ProductLink :product-id="product.id" />
+              <span>Product ID {{ product.id }}</span> <OrderDetailsLink :href="route('orders.index', { product_id: product.id })" />
+              <ProductLink :product-id="product.id" />
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -46,7 +48,13 @@ const breadcrumbs: BreadcrumbItem[] = [
               </div>
               <div class="space-y-1">
                 <label>Slug:</label>
-                <p>{{ product.slug || '-' }}</p>
+                <div>
+                  <a v-if="product.permalink" :href="product.permalink" target="_blank" class="underline">
+                    {{ product.slug }}
+                  </a>
+                  <p v-else-if="product.slug">{{ product.slug }}</p>
+                  <p v-else>-</p>
+                </div>
               </div>
               <div class="space-y-1">
                 <label>Date Created:</label>
@@ -70,7 +78,7 @@ const breadcrumbs: BreadcrumbItem[] = [
               </div>
               <div class="space-y-1">
                 <label>Sku:</label>
-                <p>{{ product.sku || '-' }}</p>
+                <p>{{ product.sku }}</p>
               </div>
               <div class="space-y-1">
                 <label>Price:</label>

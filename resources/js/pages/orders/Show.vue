@@ -92,7 +92,6 @@ const breadcrumbs: BreadcrumbItem[] = [
                   <Link v-if="order.customer_id" :href="route('customers.show', order.customer_id)" class="underline">{{ order.customer_id }}</Link>
                   <p v-else>-</p>
                 </div>
-                <!-- <p>{{ order.customer_id && order.customer_id > 0 ? order.customer_id : '-' }}</p> -->
               </div>
               <div class="space-y-1">
                 <label>Customer Note:</label>
@@ -138,7 +137,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                       <img
                         v-if="product.image?.src"
                         :src="product.image.src"
-                        :alt="product.name || product.id.toString()"
+                        :alt="product.name || product.id?.toString()"
                         class="inline-block size-8 object-cover"
                       />
                       <span>{{ product.name }}</span>

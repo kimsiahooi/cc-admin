@@ -9,6 +9,7 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $customer_id = $request->input('customer_id') ?? null;
+        $product_id = $request->input('product_id') ?? null;
         $order_id = $request->input('order_id') ?? null;
         $status = $request->input('status') ?? 'any';
         $entries = $request->input('entries') ?? 10;
@@ -16,6 +17,7 @@ class OrderController extends Controller
 
         $filter_config = [
             'customer_id' => $customer_id ?? '',
+            'product_id' => $product_id ?? '',
             'order_id' => $order_id ?? '',
             'status' => $status,
             'entries' => $entries,
@@ -25,6 +27,7 @@ class OrderController extends Controller
         $response = fetchWithAuth()->get('/orders', [
             'include' => $order_id,
             'customer' => $customer_id,
+            'product' => $product_id,
             'status' => $status,
             'per_page' => $entries,
             'page' => $page,
@@ -40,7 +43,6 @@ class OrderController extends Controller
             'orders/Index',
             [
                 'orders' => $response->json(),
-                'customer_id' => $customer_id,
                 'filter_config' => $filter_config
             ]
         );
