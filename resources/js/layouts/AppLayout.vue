@@ -32,6 +32,7 @@ watch(
     if (newFlashMessage.success) {
       toast({
         description: newFlashMessage.success,
+        variant: 'success',
       });
     }
   },

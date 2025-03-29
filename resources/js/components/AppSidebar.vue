@@ -4,7 +4,7 @@ import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import type { NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { LayoutGrid, Package2, ShoppingBag, Users } from 'lucide-vue-next';
+import { LayoutGrid, Package2, ShoppingBag, Sparkles, Users } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
@@ -30,6 +30,13 @@ const mainNavItems: NavItem[] = [
     href: route('orders.index'),
     icon: Package2,
     isActive: route().current('orders.*'),
+  },
+  {
+    title: 'Features',
+    href: '#',
+    icon: Sparkles,
+    isActive: route().current('features.*'),
+    items: [{ title: 'Fake Notifications', href: route('features.index', { feature: 'fake-notifications' }) }],
   },
 ];
 </script>

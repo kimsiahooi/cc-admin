@@ -21,6 +21,21 @@ declare module 'ziggy-js' {
         }
     ],
     "debugbar.queries.explain": [],
+    "sanctum.csrf-cookie": [],
+    "api.features.index": [
+        {
+            "name": "feature",
+            "required": true,
+            "binding": "slug"
+        }
+    ],
+    "api.features.update": [
+        {
+            "name": "feature",
+            "required": true,
+            "binding": "slug"
+        }
+    ],
     "home": [],
     "dashboard": [],
     "customers.index": [],
@@ -42,6 +57,20 @@ declare module 'ziggy-js' {
         {
             "name": "id",
             "required": true
+        }
+    ],
+    "features.index": [
+        {
+            "name": "feature",
+            "required": true,
+            "binding": "slug"
+        }
+    ],
+    "features.update": [
+        {
+            "name": "feature",
+            "required": true,
+            "binding": "slug"
         }
     ],
     "profile.edit": [],

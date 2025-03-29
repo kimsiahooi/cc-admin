@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,13 @@ Route::middleware('auth')->group(function () {
         ->group(function () {
             Route::get('', [OrderController::class, 'index'])->name('index');
             Route::get('/{id}', [OrderController::class, 'show'])->name('show');
+        });
+
+    Route::prefix('features')
+        ->name('features.')
+        ->group(function () {
+            Route::get('{feature:slug}', [FeatureController::class, 'index'])->name('index');
+            Route::put('{feature:slug}', [FeatureController::class, 'update'])->name('update');
         });
 });
 
