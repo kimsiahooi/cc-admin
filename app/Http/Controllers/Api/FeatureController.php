@@ -16,7 +16,7 @@ class FeatureController extends Controller
 
         if ($setting->is_active) {
             $response = fetchWithAuth()->get('/orders', [
-                'per_page' =>  $feature->total,
+                'per_page' =>  $setting->total,
                 'status' => ['processing', 'completed']
             ]);
 
